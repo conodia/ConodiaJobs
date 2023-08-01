@@ -1,0 +1,37 @@
+jobs:
+  miner:
+    blocks:
+      - STONE: 0.5
+      - COAL_ORE: 1.0
+      - IRON_ORE: 3.0
+      - GOLD_ORE: 50.0
+    furnace:
+      - COAL: 2.0
+  constructor:
+    blocks:
+      - STONE: 0.5
+      - OBSIDIAN: 100.0
+  hunter:
+    mobs:
+      - ZOMBIE: 50.0
+      - PLAYER: 500.0
+  lumberjack:
+    blocks:
+      - LOG: 1.0
+      - LEAVES: 0.5
+  farmer:
+    blocks:
+      - WHEAT: 1.0
+      - CARROT: 1.0
+      - POTATO: 1.0
+      - MELON: 1.0
+      - PUMPKIN: 1.0
+      - SUGAR_CANE: 1.0
+      - CACTUS: 1.0
+      - NETHER_WART: 1.0
+      - COCOA: 1.0
+    craft:
+      BREAD: 1.0
+      HAY_BLOCK: 1.0
+
+
