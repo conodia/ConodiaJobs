@@ -1,0 +1,15 @@
+name: ConodiaJobs
+version: 1.0.0
+author: PandaGuerrier
+main: fr.pandaguerrier.jobs.ConodiaJobs
+depend: [ConodiaGameAPI]
+commands:
+  jobs:
+    description: Permet d'ouvrir le menu principal.
+    aliases: [job, jobs]
+  jobadmin:
+    description: Permet pour les admins
+    aliases: [jobsadmin]
+
+
+  
