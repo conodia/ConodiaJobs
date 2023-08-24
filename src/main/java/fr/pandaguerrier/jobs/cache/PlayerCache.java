@@ -20,7 +20,7 @@ public class PlayerCache extends CacheManager<JobsManager> {
 
       if(!Utils.isPlayerOnline(job.get("player_name").toString())) continue;
 
-      Player player = (Player) ConodiaJobs.getInstance().getServer().getOfflinePlayer(UUID.fromString(job.get("player_id").toString()));
+      Player player = ConodiaJobs.getInstance().getServer().getPlayer(UUID.fromString(job.get("player_id").toString()));
       JobsManager jobsManager = JobsManager.from(job, ConodiaJobs.getInstance().getServer().getPlayer(UUID.fromString(job.get("player_id").toString())));
 
       this.getCache().put(player.getUniqueId().toString(), jobsManager);
