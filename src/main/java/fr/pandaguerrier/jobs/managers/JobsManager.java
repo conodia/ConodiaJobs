@@ -12,13 +12,13 @@ import org.json.simple.JSONObject;
 
 public class JobsManager {
   private  int id;
-  private final JobsContract miner;
-  private final JobsContract hunter;
-  private final JobsContract builder;
-  private final JobsContract farmer;
-  private final JobsContract woodcutter;
+  private JobsContract miner;
+  private JobsContract hunter;
+  private JobsContract builder;
+  private JobsContract farmer;
+  private JobsContract woodcutter;
 
-  private final Player player;
+  private Player player;
 
   public JobsManager(Player player, JobsContract miner, JobsContract hunter, JobsContract builder, JobsContract farmer, JobsContract woodcutter, int id) {
     this.player = player;
@@ -31,14 +31,21 @@ public class JobsManager {
   }
 
   public void create() {
-    ConodiaJobs.getInstance().getPlayerCache().getCache().put(player.getUniqueId().toString(), this);
     JSONObject payload = (JSONObject) ConodiaGameAPI.getInstance().getApiManager().post("/jobs", toJson()).get("job");
 
-    this.id = (int) payload.get("id");
+    JobsManager jobsManager = JobsManager.from(payload, player);
+    this.id = jobsManager.id;
+    this.miner = jobsManager.miner;
+    this.hunter = jobsManager.hunter;
+    this.builder = jobsManager.builder;
+    this.farmer = jobsManager.farmer;
+    this.woodcutter = jobsManager.woodcutter;
+
+    ConodiaJobs.getInstance().getPlayerCache().getCache().put(player.getUniqueId().toString(), this);
   }
 
   public void update() {
-    ConodiaGameAPI.getInstance().getApiManager().put("/jobs", toJson());
+    ConodiaGameAPI.getInstance().getApiManager().post("/jobs/" + this.id, toJson());
   }
 
   public static double getBlockXp(Material material, String type, Jobs job) {
@@ -49,6 +56,23 @@ public class JobsManager {
   public static double getEntityXp(Entity material, String type, Jobs job) {
     FileConfiguration config = ConodiaJobs.getInstance().getConfig();
     return config.getDouble("jobs." + job.getName() + "." + type + "." + material.toString(), 0);
+  }
+
+  public JobsContract getJobContract(Jobs jobs) {
+    switch (jobs) {
+      case MINER:
+        return miner;
+      case HUNTER:
+        return hunter;
+      case CONSTRUCTOR:
+        return builder;
+      case FARMER:
+        return farmer;
+      case WOODCUTTER:
+        return woodcutter;
+      default:
+        return null;
+    }
   }
 
   private JSONObject toJson() {
@@ -102,7 +126,7 @@ public class JobsManager {
         JobsContract.from((JSONObject) jobs.get("builder"), player, Jobs.CONSTRUCTOR),
         JobsContract.from((JSONObject) jobs.get("farmer"), player, Jobs.FARMER),
         JobsContract.from((JSONObject) jobs.get("woodcutter"), player, Jobs.WOODCUTTER),
-         Integer.parseInt(payload.get("id").toString())
+        Integer.parseInt(payload.get("id").toString())
     );
   }
 }

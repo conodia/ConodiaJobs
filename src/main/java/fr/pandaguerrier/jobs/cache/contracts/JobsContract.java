@@ -1,5 +1,6 @@
 package fr.pandaguerrier.jobs.cache.contracts;
 
+import fr.pandaguerrier.jobs.ConodiaJobs;
 import fr.pandaguerrier.jobs.enums.Jobs;
 import fr.pandaguerrier.jobs.utils.Constants;
 import fr.pandaguerrier.jobs.utils.Utils;
@@ -33,9 +34,10 @@ public class JobsContract {
     level++;
     this.xp = 0;
 
-    player.sendTitle("§2Level Up !", "§2" + (level - 1) + "§a >> §2" + level + "§a : ," + this.job.getFormattedName());
+    player.sendTitle("§2Level Up !", "§2" + (level - 1) + "§a >> §2" + level + "§a : " + this.job.getFormattedName());
     Utils.sendActionBar(player, "§bVous êtes passé level §9" + level + "§b dans le métier " + this.job.getFormattedName() + "§b  !");
     player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);
+    ConodiaJobs.getInstance().getPlayerCache().getCache().get(player.getUniqueId().toString()).update();
   }
 
   public int getLevel() {
@@ -54,8 +56,6 @@ public class JobsContract {
   }
 
   public static JobsContract from(JSONObject payload, Player player, Jobs job) {
-    System.out.println("§9---------------------------------");
-    System.out.println("§b" + payload);
     return new JobsContract(
         Integer.parseInt(payload.get("level").toString()),
         Double.parseDouble(payload.get("xp").toString()),

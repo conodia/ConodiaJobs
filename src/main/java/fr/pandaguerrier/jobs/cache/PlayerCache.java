@@ -3,6 +3,7 @@ package fr.pandaguerrier.jobs.cache;
 import fr.pandaguerrier.conodiagameapi.ConodiaGameAPI;
 import fr.pandaguerrier.jobs.ConodiaJobs;
 import fr.pandaguerrier.jobs.managers.JobsManager;
+import fr.pandaguerrier.jobs.utils.Utils;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,12 +17,13 @@ public class PlayerCache extends CacheManager<JobsManager> {
 
     for (Object object : payload) {
       JSONObject job = (JSONObject) object;
-      System.out.println("PlayerCache: " + job.get("player_id"));
-      Player player = ConodiaJobs.getInstance().getServer().getPlayer(UUID.fromString(job.get("player_id").toString()));
-      System.out.println("PlayerCache: " + player.getName());
+
+      if(!Utils.isPlayerOnline(job.get("player_name").toString())) continue;
+
+      Player player = (Player) ConodiaJobs.getInstance().getServer().getOfflinePlayer(UUID.fromString(job.get("player_id").toString()));
       JobsManager jobsManager = JobsManager.from(job, ConodiaJobs.getInstance().getServer().getPlayer(UUID.fromString(job.get("player_id").toString())));
 
-      this.getCache().put(job.get("player_id").toString(), jobsManager);
+      this.getCache().put(player.getUniqueId().toString(), jobsManager);
       System.out.println("PlayerCache: " + job.get("player_name"));
     }
   }

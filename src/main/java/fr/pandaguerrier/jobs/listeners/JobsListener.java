@@ -28,7 +28,8 @@ public class JobsListener implements Listener {
     Block block = event.getBlock();
 
     if (FactionsBlockListener.playerCanBuildDestroyBlock(player, block.getLocation(), "destroy", true)) {
-      cache.get(player.getUniqueId().toString()).getMiner().addXp(JobsManager.getBlockXp(block.getType(), "blocks", Jobs.MINER));
+      JobsManager jobsManager = cache.get(player.getUniqueId().toString());
+      jobsManager.getMiner().addXp(JobsManager.getBlockXp(block.getType(), "blocks", Jobs.MINER));
     }
   }
 
@@ -69,7 +70,6 @@ public class JobsListener implements Listener {
   public void hunter(EntityDeathEvent event) {
     Entity entity = event.getEntity();
     Player killer = event.getEntity().getKiller();
-    if (!(killer instanceof Player)) return;
 
     Player player = killer.getPlayer();
     cache.get(player.getUniqueId().toString()).getFarmer().addXp(JobsManager.getEntityXp(entity, "mobs", Jobs.HUNTER));

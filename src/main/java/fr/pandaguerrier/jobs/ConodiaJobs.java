@@ -5,6 +5,7 @@ import fr.pandaguerrier.jobs.commands.JobsCommand;
 import fr.pandaguerrier.jobs.listeners.InventoryListener;
 import fr.pandaguerrier.jobs.listeners.JobsListener;
 import fr.pandaguerrier.jobs.listeners.PlayerListener;
+import fr.pandaguerrier.jobs.managers.JobsManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ConodiaJobs extends JavaPlugin {
@@ -20,6 +21,13 @@ public class ConodiaJobs extends JavaPlugin {
     loadCommands();
     loadEvents();
     System.out.println("\n \n-------------------------\n \nLe new ConodiaJobs est connecté !\n \n-------------------------\n \n");
+  }
+
+  public void onDisable() {
+    System.out.println("\n \n-------------------------\n \nLe new ConodiaJobs est déconnecté !\n \n-------------------------\n \n");
+    for (JobsManager jobsManager : playerCache.getCache().values()) {
+      jobsManager.update();
+    }
   }
 
   private void loadCommands() {

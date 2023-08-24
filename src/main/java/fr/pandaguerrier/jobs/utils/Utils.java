@@ -23,6 +23,14 @@ public class Utils {
     return playerJobs;
   }
 
+  public static boolean isPlayerOnline(String name) {
+    try {
+      Player player = Bukkit.getPlayerExact(name);
+      return true;
+    } catch(Exception ignored) {}
+    return false;
+  }
+
   public static void sendActionBar(Player player, String text) {
     PacketPlayOutChat packet = new PacketPlayOutChat(new ChatComponentText(text), (byte) 2);
     ((CraftPlayer) Bukkit.getPlayer(player.getName())).getHandle().playerConnection.sendPacket(packet);

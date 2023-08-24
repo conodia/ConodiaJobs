@@ -18,6 +18,7 @@ public class PlayerListener implements Listener {
     JobsManager jobsManager = ConodiaJobs.getInstance().getPlayerCache().getCache().get(player.getUniqueId().toString());
 
     if (jobsManager == null) {
+      System.out.println("Player Create");
       jobsManager = Utils.createPlayer(player);
       ConodiaJobs.getInstance().getPlayerCache().getCache().put(player.getUniqueId().toString(), jobsManager);
     }
@@ -29,6 +30,7 @@ public class PlayerListener implements Listener {
     JobsManager jobsManager = ConodiaJobs.getInstance().getPlayerCache().getCache().get(player.getUniqueId().toString());
 
     if (jobsManager == null) {
+      System.out.println("Player Create");
       jobsManager = Utils.createPlayer(player);
       ConodiaJobs.getInstance().getPlayerCache().getCache().put(player.getUniqueId().toString(), jobsManager);
     } else {
