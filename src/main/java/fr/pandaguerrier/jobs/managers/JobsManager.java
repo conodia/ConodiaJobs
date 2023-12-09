@@ -2,7 +2,7 @@ package fr.pandaguerrier.jobs.managers;
 
 import fr.pandaguerrier.conodiagameapi.ConodiaGameAPI;
 import fr.pandaguerrier.jobs.ConodiaJobs;
-import fr.pandaguerrier.jobs.cache.contracts.JobsContract;
+import fr.pandaguerrier.jobs.contracts.JobsContract;
 import fr.pandaguerrier.jobs.enums.Jobs;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

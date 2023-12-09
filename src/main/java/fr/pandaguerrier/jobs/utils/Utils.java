@@ -1,7 +1,12 @@
 package fr.pandaguerrier.jobs.utils;
 
-import fr.pandaguerrier.jobs.cache.contracts.JobsContract;
+import com.massivecraft.factions.FPlayer;
+import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.Faction;
+import fr.pandaguerrier.jobs.ConodiaJobs;
+import fr.pandaguerrier.jobs.contracts.JobsContract;
 import fr.pandaguerrier.jobs.enums.Jobs;
+import fr.pandaguerrier.jobs.managers.FLevelManager;
 import fr.pandaguerrier.jobs.managers.JobsManager;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
@@ -14,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class Utils {
   public static JobsManager createPlayer(Player player) {
@@ -23,10 +29,27 @@ public class Utils {
     return playerJobs;
   }
 
-  public static boolean isPlayerOnline(String name) {
+  public static FLevelManager createFaction(Faction faction) {
+    FLevelManager fLevelManager = new FLevelManager(0, faction, 0, 0.0);
+    fLevelManager.create();
+
+    return fLevelManager;
+  }
+
+  public static FLevelManager getFaction(Player player) {
+    FPlayer fPlayer = FPlayers.getInstance().getByPlayer(player);
+
+    if (fPlayer == null || fPlayer.getFaction() == null || fPlayer.getFaction().getTag() == null || fPlayer.getFaction().isWilderness()) {
+      return null;
+    }
+
+    return ConodiaJobs.getInstance().getfLevelCache().getCache().get(fPlayer.getFaction().getTag());
+  }
+
+  public static boolean isPlayerOnline(UUID uuid) {
     try {
-      Player player = Bukkit.getPlayerExact(name);
-      return true;
+      Player player = Bukkit.getPlayer(uuid);
+      return player.isOnline();
     } catch(Exception ignored) {}
     return false;
   }

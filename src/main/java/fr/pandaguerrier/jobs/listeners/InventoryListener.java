@@ -1,7 +1,12 @@
 package fr.pandaguerrier.jobs.listeners;
 
 import fr.pandaguerrier.jobs.enums.Jobs;
-import fr.pandaguerrier.jobs.ui.JobInventory;
+import fr.pandaguerrier.jobs.managers.LeaderboardManager;
+import fr.pandaguerrier.jobs.ui.BuyPointsInventory;
+import fr.pandaguerrier.jobs.ui.LevelInventory;
+import fr.pandaguerrier.jobs.ui.MainInventory;
+import fr.pandaguerrier.jobs.utils.Constants;
+import fr.pandaguerrier.jobs.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,10 +23,10 @@ public class InventoryListener implements Listener {
     Inventory inventory = event.getClickedInventory();
     ItemStack clicked = event.getCurrentItem();
 
-
-    if (inventory == null || !inventory.getName().equals("§9➜ §bJobs") || !clicked.hasItemMeta() || !clicked.getItemMeta().hasDisplayName())
-      return;
+    if (inventory == null || !inventory.getName().startsWith("§9➜ ")) return;
     event.setCancelled(true);
+
+    if (!clicked.hasItemMeta() || !clicked.getItemMeta().hasDisplayName()) return;
 
     if (clicked.getItemMeta().getDisplayName().equals("§cRetour")) {
       player.closeInventory();
@@ -30,10 +35,30 @@ public class InventoryListener implements Listener {
       return;
     }
 
-    for (Jobs job : Jobs.values()) {
-      if (clicked.getItemMeta().getDisplayName().equals(job.getFormattedName())) {
-        new JobInventory(player, job);
+    if (inventory.getName().startsWith(Constants.LEADERBOARD_GUI_NAME)) {
+      LeaderboardManager GuiManager = new LeaderboardManager(player);
+
+      switch (event.getCurrentItem().getType()) {
+        case NETHER_STAR:
+          player.closeInventory();
+          GuiManager.open(1);
+          break;
+        case ARROW:
+          player.closeInventory();
+          GuiManager.open(Integer.parseInt(event.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§bPage: ", "")));
+          break;
       }
+    }
+
+    switch (inventory.getName()) {
+      case "§9➜ §bJobs":
+        new MainInventory(player).onInteract(event);
+        break;
+      case "§9➜ §bNiveaux":
+        new LevelInventory(player, Utils.getFaction(player)).onInteract(event);
+        break;
+      case "§9➜ §bAchat de points":
+        new BuyPointsInventory(player, Utils.getFaction(player), 0).onInteract(event);
     }
   }
 

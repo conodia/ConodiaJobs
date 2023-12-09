@@ -18,13 +18,12 @@ public class PlayerCache extends CacheManager<JobsManager> {
     for (Object object : payload) {
       JSONObject job = (JSONObject) object;
 
-      if(!Utils.isPlayerOnline(job.get("player_name").toString())) continue;
+      if(!Utils.isPlayerOnline(UUID.fromString(job.get("player_id").toString()))) continue;
 
       Player player = ConodiaJobs.getInstance().getServer().getPlayer(UUID.fromString(job.get("player_id").toString()));
-      JobsManager jobsManager = JobsManager.from(job, ConodiaJobs.getInstance().getServer().getPlayer(UUID.fromString(job.get("player_id").toString())));
+      JobsManager jobsManager = JobsManager.from(job, player);
 
       this.getCache().put(player.getUniqueId().toString(), jobsManager);
-      System.out.println("PlayerCache: " + job.get("player_name"));
     }
   }
 }

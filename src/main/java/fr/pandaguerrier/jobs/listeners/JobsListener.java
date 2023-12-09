@@ -71,6 +71,8 @@ public class JobsListener implements Listener {
     Entity entity = event.getEntity();
     Player killer = event.getEntity().getKiller();
 
+    if (killer == null) return;
+
     Player player = killer.getPlayer();
     cache.get(player.getUniqueId().toString()).getFarmer().addXp(JobsManager.getEntityXp(entity, "mobs", Jobs.HUNTER));
   }

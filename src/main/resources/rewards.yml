@@ -1,0 +1,5 @@
+jobs:
+  miner:
+    # key.quantity
+    - jobs.1
+    - jobs.2; rare.1

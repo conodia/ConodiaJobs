@@ -2,14 +2,17 @@ name: ConodiaJobs
 version: 1.0.0
 author: PandaGuerrier
 main: fr.pandaguerrier.jobs.ConodiaJobs
-depend: [ConodiaGameAPI]
+depend: [ConodiaGameAPI, Factions]
 commands:
   jobs:
     description: Permet d'ouvrir le menu principal.
     aliases: [job, jobs]
-  jobadmin:
-    description: Permet pour les admins
-    aliases: [jobsadmin]
+  conojreload:
+    description: Permet de recharger le plugin.
+    aliases: [conojr]
+  levels:
+    description: Permet de voir les niveaux des métiers.
+    aliases: [level, lvl, levels, lvs]
 
 
   
